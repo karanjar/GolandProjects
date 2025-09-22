@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"learning.com/awesomeProject/interfaces"
 	"learning.com/awesomeProject/newmethods"
 	"learning.com/awesomeProject/projects"
 	"maps"
@@ -19,6 +20,7 @@ func main() {
 
 	const t = 3e20 / n
 	//for statement
+	fmt.Println("FOR STATEMENT")
 	for {
 		fmt.Println(t)
 		break
@@ -31,6 +33,7 @@ func main() {
 		fmt.Println(n)
 	}
 	// switch statement
+	fmt.Println("SWITCH STATEMENT")
 	weekday := time.Now()
 	//weekday.Hour()
 	switch weekday.Weekday() {
@@ -44,6 +47,7 @@ func main() {
 	}
 
 	// array
+	fmt.Println("ARRAY=====")
 	b := [5]int{1, 2, 3, 4, 5}
 	fmt.Println(b)
 
@@ -65,6 +69,7 @@ func main() {
 	fmt.Println("2d = ", r)
 
 	//slice
+	fmt.Print("SLICE=====")
 	var s []string
 	fmt.Println("emp =  ", s, "len =", len(s), "cap =", cap(s))
 
@@ -98,6 +103,7 @@ func main() {
 	fmt.Println("len =", len(l4), "cap =", cap(s))
 
 	//maps
+	fmt.Println("MAPS======")
 	m := make(map[int]string)
 	m[1] = "robert"
 	m[2] = "kevin"
@@ -132,7 +138,7 @@ func main() {
 	}
 
 	//functions
-
+	fmt.Println("FUNCTIONS=======")
 	sum := plus(3, 5)
 	fmt.Println(sum)
 
@@ -140,6 +146,7 @@ func main() {
 	fmt.Println(sum1)
 
 	//multiple return value
+	fmt.Println("MULTIPLE RETURN=====")
 	num, name := valu()
 
 	nname, _ := valu()
@@ -151,6 +158,7 @@ func main() {
 	varfunc(os...)
 
 	//closure "these are anonymous function that can be useful when you want to define a function inline without having to name it"
+	fmt.Println("CLOSURE=========")
 	useBcard1 := project.Activatecard()
 	useBcard2 := project.Activatecard()
 	useBcard3 := project.Activatecard()
@@ -159,26 +167,107 @@ func main() {
 	fmt.Println(useBcard3(400))
 
 	//recursion
+	fmt.Println("RECURSION=========")
 	fibb := project.Fib(7)
 	fmt.Println(fibb)
 
 	additi := project.Addi(3, 5)
-	fmt.Println(additi, "====>")
+	fmt.Println(additi)
 
 	multiplication := project.Mult(8, 8)
 	fmt.Println(multiplication)
 
 	//struct
+	fmt.Println("STRUCT==========")
 	c1 := project.NewCar("mazda", 4)
 	fmt.Println(c1)
 
 	//methods
+	fmt.Println("METHOD=========")
 	kl := project.Traipezium{Width: 10, Height: 5, Length: 6}
 	fmt.Println(kl.Area(), "cm 2")
+
+	//interface
+	fmt.Println("INTERFACES==========")
+	ro := newmethods.Round{Radius: 10}
+
+	newmethods.Measure(ro)
+
+	hbd := interfaces.BirthdayMessage{BirthdayTime: time.Date(2004, 8, 23, 22, 45, 67, 0, time.UTC),
+		RecipientName: "ROBERT KARANJA"}
+
+	mr := interfaces.SendingReport{ReportName: "Monthly report",
+		NumberOfSends: 60}
+	text1, cost1 := interfaces.SendMessage(hbd)
+	text2, cost2 := interfaces.SendMessage(mr)
+
+	fmt.Println(text1, cost1)
+	fmt.Println(text2, cost2)
+
+	ctr := interfaces.Contractor{Name: "peterson warotere",
+		HourlyPay:    150,
+		HoursPerYear: 3600}
+
+	ft := interfaces.FullTime{Name: "Benson Karanja"}
+	fmt.Println(ctr)
+	fmt.Println(ctr.GetSalary())
+	fmt.Println(ft)
+
+	email := interfaces.Email{
+		IsSubscribed: true,
+		Body:         "Hello World",
+	}
+
+	fmt.Println(email.Format())
+
+	////enums
+	fmt.Println("ENUMS=======")
+	//news := newmethods.Transform(newmethods.Carready)
+	//fmt.Println(news)
+	//
+	//car := news
+	//fmt.Println(car)
+
+	//struct embedding
+	fmt.Println("STRUCT EMBEDDING========")
+	tx := user{
+		name:   "bob",
+		number: "0707712786",
+		sender: sender{
+			rateLimit: 50,
+		},
+	}
+	fmt.Println(tx.rateLimit)
+	//struct methods
+
+	auth := authenticationInfo{
+		username: "bob",
+		password: "kldfvjfvj",
+	}
+	fmt.Println(auth.grtBasicAuth())
+
+	customer := newUser("bob", "standard")
+	fmt.Println(customer)
+	customerMessage, _ := customer.sendMassage("i what do you want to do", 1000)
+	fmt.Println("message sent", customerMessage)
+
+	plaintext := interfaces.Plaintext{
+		Message: "KARATINA UNIVERSTY STUDENTS",
+	}
+	bold := interfaces.Bold{
+		Message: "KARATINA UNIVERSTY STUDENTS",
+	}
+	code := interfaces.Code{
+		Message: "KARATINA UNIVERSTY STUDENTS",
+	}
+	fmt.Println(interfaces.SendMessage1(plaintext))
+	fmt.Println(interfaces.SendMessage1(bold))
+	fmt.Println(interfaces.SendMessage1(code))
 
 }
 
 // multiple return value
+
 func valu() (int, string) {
 	return 34, "bob"
 }
@@ -206,9 +295,64 @@ func varfunc(nums ...int) {
 
 	fmt.Println("the area of circle is :", cir.Area())
 
-	//interface
+}
 
-	ro := newmethods.Round{Radius: 10}
+// struct embedding
+type sender struct {
+	rateLimit int
+}
 
-	newmethods.Measure(ro)
+type user struct {
+	name   string
+	number string
+	sender
+}
+
+//struct methods in go
+
+type authenticationInfo struct {
+	username string
+	password string
+}
+
+// create the method below
+func (a authenticationInfo) grtBasicAuth() string {
+	return fmt.Sprintf("Authorization: Basic %s:%s", a.username, a.password)
+}
+
+func (U User) sendMassage(message string, messagelenth int) (string, bool) {
+
+	if messagelenth <= U.MessagecharLimit {
+		return message, true
+	} else {
+		return "", false
+	}
+
+}
+
+type User struct {
+	Name string
+	Membership
+}
+type Membership struct {
+	Type             string
+	MessagecharLimit int
+}
+
+func newUser(name string, membershipType string) User {
+	// ?
+	limit := 1000
+	if membershipType == "premium" {
+		limit = 1000
+
+	} else {
+		limit = 100
+	}
+	return User{
+		Name: name,
+		Membership: Membership{
+			Type:             membershipType,
+			MessagecharLimit: limit,
+		},
+	}
 }

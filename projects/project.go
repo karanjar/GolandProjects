@@ -45,11 +45,10 @@ func Mult(n, m int) int {
 // closure
 func Activatecard() func(int) int {
 	amount := 1000
-	debitfunc := func(debitamount int) int {
+	return func(debitamount int) int {
 		amount -= debitamount
 		return amount
 	}
-	return debitfunc
 }
 
 type Traipezium struct {
