@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"learning.com/awesomeProject/errors"
 	"learning.com/awesomeProject/interfaces"
+	"learning.com/awesomeProject/loops"
 	"learning.com/awesomeProject/newmethods"
 	"learning.com/awesomeProject/projects"
 	"maps"
@@ -264,6 +266,34 @@ func main() {
 	fmt.Println(interfaces.SendMessage1(bold))
 	fmt.Println(interfaces.SendMessage1(code))
 
+	//error
+	totalcost, err := errors.SendSMSToCouple("The message has", "Your spouse has send ")
+	if err != nil {
+		fmt.Println("ERROR:", err)
+	}
+	fmt.Println(totalcost)
+	smsE := errors.GetSMSErrorString(34.4535, "ROBERT KARANJA")
+	fmt.Println(smsE)
+
+	divderC, err := errors.Divide(3, 0)
+	if err != nil {
+		fmt.Println("ERROR:", err)
+	} else {
+		fmt.Println(divderC)
+	}
+	divs, err := errors.Divide1(3, 6)
+	if err != nil {
+		fmt.Println("ERROR:", err)
+	}
+	fmt.Println(divs)
+	err = errors.ValidateStatus("countyu in  country")
+	if err != nil {
+		fmt.Println("ERROR:", err)
+	}
+	tc := loops.Bulksend(5)
+	fmt.Println(tc)
+
+	loops.FizzBuzz()
 }
 
 // multiple return value
