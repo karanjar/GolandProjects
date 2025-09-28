@@ -2,13 +2,15 @@ package main
 
 import (
 	"fmt"
+	"maps"
+	"time"
+
 	"learning.com/awesomeProject/errors"
 	"learning.com/awesomeProject/interfaces"
 	"learning.com/awesomeProject/loops"
 	"learning.com/awesomeProject/newmethods"
-	"learning.com/awesomeProject/projects"
-	"maps"
-	"time"
+	"learning.com/awesomeProject/slices"
+	project "learning.com/awesomeProject/projects"
 )
 
 func main() {
@@ -69,6 +71,9 @@ func main() {
 		{6, 8, 9},
 	}
 	fmt.Println("2d = ", r)
+
+	getmes,cost3 := slices.GetMessageWithRetries("jfvjjvjfj","eufuieuiefu","eifiiieei")
+	fmt.Println(getmes,"the cost is ",cost3)
 
 	//slice
 	fmt.Print("SLICE=====")
@@ -294,6 +299,7 @@ func main() {
 	fmt.Println(tc)
 
 	loops.FizzBuzz()
+	
 }
 
 // multiple return value
