@@ -9,8 +9,8 @@ import (
 	"learning.com/awesomeProject/interfaces"
 	"learning.com/awesomeProject/loops"
 	"learning.com/awesomeProject/newmethods"
-	"learning.com/awesomeProject/slices"
 	project "learning.com/awesomeProject/projects"
+	"learning.com/awesomeProject/slices"
 )
 
 func main() {
@@ -72,8 +72,8 @@ func main() {
 	}
 	fmt.Println("2d = ", r)
 
-	getmes,cost3 := slices.GetMessageWithRetries("jfvjjvjfj","eufuieuiefu","eifiiieei")
-	fmt.Println(getmes,"the cost is ",cost3)
+	getmes, cost3 := slices.GetMessageWithRetries("jfvjjvjfj", "eufuieuiefu", "eifiiieei")
+	fmt.Println(getmes, "the cost is ", cost3)
 
 	//slice
 	fmt.Print("SLICE=====")
@@ -108,6 +108,42 @@ func main() {
 	l4 := l1[2:]
 	fmt.Println("sliced =", l4)
 	fmt.Println("len =", len(l4), "cap =", cap(s))
+
+	messG, err := slices.GetMessageWithRetriesForPlan("proo", [3]string{"Hello", "you look great today", "have a nice weekend"})
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(messG)
+
+	messcost := slices.GetMessageCosts([]string{"Hello", "you look great today", "have a nice weekend", "or can we share some info", "The weekend is over", "Have a nice weekday"})
+	fmt.Println(messcost)
+	c0st := slices.Sum(2, 4, 6, 7, 9, 0, 4, 3, 3)
+	fmt.Println(c0st)
+
+	dayg := []slices.Cost{
+		{Day: 1, Value: 10.2},
+		{Day: 2, Value: 10.5},
+		{Day: 3, Value: 10.6},
+		{Day: 4, Value: 10.7},
+		{Day: 5, Value: 10.8},
+		{Day: 6, Value: 10.9},
+	}
+
+	dayc := slices.GetDayCosts(dayg, 4)
+	fmt.Println(dayc)
+
+	badword := []string{"fuck", "mother fucker", "father fucker", "bitch"}
+	meswaord := []string{"", "food", "ugali", "sugar"}
+
+	indexof := slices.IndexOfFirstBadWord(meswaord, badword)
+	fmt.Println(indexof)
+	d2 := slices.CreateMatrix(10, 10)
+	for _, row := range d2 {
+		for _, col := range row {
+			fmt.Printf("%4d", col)
+		}
+		fmt.Println("=======================================")
+	}
 
 	//maps
 	fmt.Println("MAPS======")
@@ -299,7 +335,7 @@ func main() {
 	fmt.Println(tc)
 
 	loops.FizzBuzz()
-	
+
 }
 
 // multiple return value
