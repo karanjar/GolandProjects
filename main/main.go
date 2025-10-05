@@ -144,7 +144,16 @@ func main() {
 		}
 		fmt.Println("=======================================")
 	}
+	Mn1 := slices.TextMessage{Sender: "Robert", Content: "Hello World"}
+	Mn2 := slices.MediaMessage{Sender: "Robert", MediaType: "media", Content: "Hello World.png"}
+	Mn3 := slices.LinkMessage{Sender: "Robert", URL: "https://HelloWorld.com", Content: "Hello World"}
+	messages := []slices.Message{Mn1, Mn2, Mn3}
 
+	filtered := slices.FilterMessages(messages, "link")
+	fmt.Println(filtered)
+
+	paswword := slices.IsValidPassword("Karanja4488")
+	fmt.Println(paswword)
 	//maps
 	fmt.Println("MAPS======")
 	m := make(map[int]string)

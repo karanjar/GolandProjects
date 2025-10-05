@@ -86,3 +86,72 @@ func CreateMatrix(Rows, Cols int) [][]int {
 	return Data
 
 }
+
+type Message interface {
+	Type() string
+}
+
+type TextMessage struct {
+	Sender  string
+	Content string
+}
+
+func (tm TextMessage) Type() string {
+	return "text"
+}
+
+type MediaMessage struct {
+	Sender    string
+	MediaType string
+	Content   string
+}
+
+func (mm MediaMessage) Type() string {
+	return "media"
+}
+
+type LinkMessage struct {
+	Sender  string
+	URL     string
+	Content string
+}
+
+func (lm LinkMessage) Type() string {
+	return "link"
+}
+
+// Don't touch above this line
+
+func FilterMessages(Messages []Message, FilterType string) []Message {
+	// ?
+	var MessageF []Message
+	for _, M := range Messages {
+		if FilterType == M.Type() {
+			MessageF = append(MessageF, M)
+		}
+
+	}
+	return MessageF
+
+}
+
+func IsValidPassword(Password string) bool {
+	// ?
+	if len(Password) < 8 {
+		return false
+	}
+	Hasupper := false
+	Hasdigit := false
+	for I := 0; I < len(Password); I++ {
+		char := Password[I]
+
+		if char >= '0' && char <= '9' {
+			Hasdigit = true
+		}
+		if char >= 'A' && char <= 'Z' {
+			Hasupper = true
+		}
+
+	}
+	return Hasdigit && Hasupper
+}
