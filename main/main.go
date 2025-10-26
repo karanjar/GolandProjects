@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"maps"
+	"sync"
 	"time"
 
+	"learning.com/awesomeProject/channels"
 	"learning.com/awesomeProject/errors"
 	"learning.com/awesomeProject/interfaces"
 	"learning.com/awesomeProject/loops"
@@ -344,6 +346,179 @@ func main() {
 	fmt.Println(tc)
 
 	loops.FizzBuzz()
+	//
+	////GOROUTINES
+	////fmt.Println("GOROUTINE=======================")
+	////runtime.GOMAXPROCS(4)
+	////go goroutines.Printnumbers()
+	////
+	////time.Sleep(10 * time.Second)
+	////fmt.Println("Am the main goroutine...")
+	////time.Sleep(10 * time.Second)
+	//
+	////synchronizing goroutine with waitgroup
+	//
+	var wg sync.WaitGroup
+	////
+	////for i := 0; i < 3; i++ {
+	////
+	////	wg.Add(1)
+	////	go goroutines.Worler(i+1, &wg)
+	////}
+	//for i := 1; i <= 5; i++ {
+	//	wg.Add(1)
+	//	go goroutines.Worler(i, 2, &wg)
+	//}
+	//
+	//wg.Wait()
+	//
+	//for i := 0; i < 10; i++ {
+	//	wg.Add(1)
+	//	go goroutines.Increment(&wg)
+	//}
+	//wg.Wait()
+	//
+	//fmt.Println("couts is", goroutines.Couter)
+	//
+	//for i := 0; i < 5; i++ {
+	//	goroutines.Wg.Add(1)
+	//	go goroutines.Writecounter()
+	//}
+	//for i := 0; i < 10; i++ {
+	//	goroutines.Wg.Add(1)
+	//	go goroutines.Readcounter()
+	//}
+	//goroutines.Wg.Wait()
+	//
+	////buffered channels
+	////ch := make(chan string)
+	////go func() {
+	////	time.Sleep(5 * time.Second)
+	////	ch <- "Hello World"
+	////}()
+	////fmt.Println("waiting for sender...")
+	////msg := <-ch
+	////fmt.Println(msg)
+	//
+	////unbuffered channels
+	//
+	//ch := make(chan int)
+	//
+	//go func() {
+	//	ch <- 1
+	//	fmt.Println("sending message 1 on channel..")
+	//	ch <- 2
+	//	fmt.Println("sending message 2 on channel..")
+	//	ch <- 3
+	//	fmt.Println("sending message 3 on channel..")
+	//}()
+	//
+	//fmt.Println("waiting for sender...")
+	//
+	//time.Sleep(5 * time.Second)
+	//i1 := <-ch
+	//fmt.Println("message recieved", i1)
+	//i2 := <-ch
+	//fmt.Println("message recieved", i2)
+	//i3 := <-ch
+	//fmt.Println("message recieved", i3)
+	//
+	//for i := 0; i < 3; i++ {
+	//	go channels.Workers(i, ch)
+	//
+	//}
+	//time.Sleep(2 * time.Second)
+	//for i := 0; i < 3; i++ {
+	//	val := <-ch
+	//	fmt.Println("message recieved", val)
+	//}
+	//
+	//ch1 := make(chan int)
+	//wg.Add(2)
+	//go channels.Send(ch1, &wg)
+	//
+	//go channels.Receive(ch1, &wg)
+	//wg.Wait()
+
+	cha := make(chan string)
+	chb := make(chan string)
+	chc := make(chan string)
+	chd := make(chan string)
+	che := make(chan string)
+
+	go func() {
+		time.Sleep(1 * time.Second)
+		cha <- "RESPONCE FROM CHANNEL A"
+	}()
+	go func() {
+		time.Sleep(5 * time.Second)
+		chb <- "RESPONCE FROM CHANNEL B"
+	}()
+	go func() {
+		time.Sleep(4 * time.Second)
+		chc <- "RESPONCE FROM CHANNEL C"
+	}()
+	go func() {
+		time.Sleep(3 * time.Second)
+		chd <- "RESPONCE FROM CHANNEL D"
+	}()
+	go func() {
+		time.Sleep(5 * time.Second)
+		che <- "RESPONCE FROM CHANNEL E"
+	}()
+
+	select {
+
+	case msg1 := <-cha:
+		fmt.Println(msg1)
+	case msg2 := <-chb:
+		fmt.Println(msg2)
+	case msg3 := <-chc:
+		fmt.Println(msg3)
+	case msg4 := <-chd:
+		fmt.Println(msg4)
+	case msg5 := <-che:
+		fmt.Println(msg5)
+	//case <-time.After(1 * time.Second):
+	//	fmt.Println("timeout")
+	default:
+		fmt.Println("NON Blocking...")
+
+	}
+
+	fmt.Println("main process completed")
+
+	ch := make(chan int)
+
+	go channels.Sendt(ch)
+	for i := 0; i < 8; i++ {
+		fmt.Println(<-ch)
+	}
+
+	fmt.Println("channel closed")
+	const (
+		worker = 3
+		job    = 7
+	)
+	task := make(chan int, job)
+	results := make(chan int, job)
+
+	//spawn the worker
+	for i := 1; i <= worker; i++ {
+		wg.Add(1)
+		go channels.WorkerPool(i, task, results, &wg)
+	}
+
+	for i := 1; i <= job; i++ {
+		task <- i
+	}
+	close(task)
+	wg.Wait()
+	close(results)
+
+	for r := range results {
+		fmt.Println(r)
+	}
 
 }
 
