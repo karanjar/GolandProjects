@@ -3,9 +3,11 @@ package main
 import (
 	"fmt"
 	"maps"
+	"net/http"
 	"sync"
 	"time"
 
+	"learning.com/awesomeProject/cars"
 	"learning.com/awesomeProject/channels"
 	"learning.com/awesomeProject/errors"
 	"learning.com/awesomeProject/interfaces"
@@ -519,7 +521,13 @@ func main() {
 	for r := range results {
 		fmt.Println(r)
 	}
-
+	car := cars.Carhandler
+	http.HandleFunc("/cars", car)
+	http.HandleFunc("/cars/", car)
+	fmt.Println("listening on :8080")
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		fmt.Println("Server failed:", err)
+	}
 }
 
 // multiple return value
